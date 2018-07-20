@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:integration="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+   <integration:gateway id="xml_gateway1" service-interface="com.mytests.spring.springintegration5.gateways.test1.XMLGatewayService1" default-reply-timeout="@utilsBean.timeout" >
+      <integration:default-header name="calledMethod" expression="#gatewayMethod.name" />
+      <integration:method name="method1" request-channel="reqChannel1" payload-expression="#args[0]+#args[1]+#args[2][0]" />
+      <integration:method name="method2" request-channel="reqChannel2" payload-expression="'__'+#gatewayMethod+'__'" request-timeout="#args[0]"/>
+      <integration:method name="method3" request-channel="reqChannel3" payload-expression="@utilsBean.calc(#args[0])"/>
+   </integration:gateway>
+    <integration:gateway id="xml_gateway2" service-interface="com.mytests.spring.springintegration5.gateways.test1.XMLGatewayService2" default-payload-expression="#args[0]"/>
+    <integration:gateway id="xml_gateway3" service-interface="com.mytests.spring.springintegration5.gateways.test1.XMLGatewayService3">
+        <integration:method name="method5" request-channel="reqChannel5"/>
+        <integration:method name="method6" request-channel="reqChannel6"/>
+        <integration:method name="method7" request-channel="reqChannel7"/>
+        <integration:method name="method8" request-channel="reqChannel8"/>
+    </integration:gateway>
+    <integration:channel id="reqChannel1">
+        <integration:queue/>
+    </integration:channel>
+    <integration:channel id="reqChannel2">
+        <integration:queue/>
+    </integration:channel>
+    <integration:channel id="reqChannel3">
+        <integration:queue/>
+    </integration:channel>
+    <integration:channel id="reqChannel4">
+        <integration:queue/>
+    </integration:channel>
+    <integration:channel id="reqChannel5">
+        <integration:queue/>
+    </integration:channel>
+    <integration:channel id="reqChannel6">
+        <integration:queue/>
+    </integration:channel>
+    <integration:channel id="reqChannel7">
+        <integration:queue/>
+    </integration:channel>
+    <integration:channel id="reqChannel8">
+        <integration:queue/>
+    </integration:channel>
+    <bean id="utilsBean" class="com.mytests.spring.springintegration5.gateways.test1.UtilsBean">
+        <property name="timeout" value="100"/>
+    </bean>
+    <bean id="today" class="java.util.Date">
+
+    </bean>
+</beans>
